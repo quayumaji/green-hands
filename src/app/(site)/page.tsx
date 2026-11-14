@@ -90,7 +90,7 @@ export default async function HomePage() {
           <div className="favorite-grid">
             <Reveal index={0}>
               <Link className="favorite-card" href="/menu#rice">
-              <Photo src={SITE_PHOTOS.jollof.src} alt={SITE_PHOTOS.jollof.alt} ratio="square" />
+              <Photo src={SITE_PHOTOS.jollof.src} alt={SITE_PHOTOS.jollof.alt} ratio="square" fit="contain" sizes="(min-width: 680px) 33vw, 100vw" />
               <div className="favorite-label">
                 <span>01 / RICE &amp; PROTEIN</span>
                 <b>Jollof Rice</b>
@@ -102,7 +102,7 @@ export default async function HomePage() {
             </Reveal>
             <Reveal className="favorite-offset" index={1}>
               <Link className="favorite-card" href="/menu#swallow">
-              <Photo src={SITE_PHOTOS.egusi.src} alt={SITE_PHOTOS.egusi.alt} ratio="square" />
+              <Photo src={SITE_PHOTOS.egusi.src} alt={SITE_PHOTOS.egusi.alt} ratio="square" fit="contain" sizes="(min-width: 680px) 33vw, 100vw" />
               <div className="favorite-label">
                 <span>02 / SOUP &amp; SWALLOW</span>
                 <b>Egusi</b>
@@ -114,7 +114,7 @@ export default async function HomePage() {
             </Reveal>
             <Reveal index={2}>
               <Link className="favorite-card" href="/menu#fast-food">
-              <Photo src={SITE_PHOTOS.megaFries.src} alt={SITE_PHOTOS.megaFries.alt} ratio="square" />
+              <Photo src={SITE_PHOTOS.megaFries.src} alt={SITE_PHOTOS.megaFries.alt} ratio="square" fit="contain" sizes="(min-width: 680px) 33vw, 100vw" />
               <div className="favorite-label">
                 <span>03 / FAST FOOD</span>
                 <b>Mega Fries</b>

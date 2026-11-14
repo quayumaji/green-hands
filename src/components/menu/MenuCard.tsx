@@ -71,7 +71,7 @@ export function MenuCard({ item, orderingEnabled, linkTitle = true }: MenuCardPr
 
   return (
     <article className="menu-card" data-menu-item={item.slug} id={`item-${item.slug}`}>
-      <Photo className="menu-photo" src={item.imageUrl} alt={item.imageAlt || item.name} />
+      <Photo className="menu-photo" src={item.imageUrl} alt={item.imageAlt || item.name} ratio="square" fit="contain" sizes="(min-width: 1020px) 33vw, (min-width: 680px) 50vw, 100vw" />
       <div className="menu-card-content">
         <div className="menu-card-top">
           <h3>{linkTitle ? <Link href={`/menu/${item.slug}`}>{item.name}</Link> : item.name}</h3>

@@ -43,7 +43,7 @@ Fonts load through `next/font/google` with `display: swap`; the CSS variables fa
 - `.container`: `min(1160px, 100% - 40px)`; 64px gutters from 680px.
 - `.section-pad`: 78px vertical, 94px from 680px.
 - Breakpoints: `680px` (two-column layouts, desktop nav), `1020px` (three-column menu grid, stacked menu cards), `1200px` (hero line no-wrap), `max-width: 360px` (tighter header), `hover: none` (no lift effects on touch).
-- Menu grid: 1 column → 2 (cards become photo-left rows) → 3 (cards stack photo-over-text).
+- Menu grid: 1 column → 2 → 3; cards always stack the square photo above the text so the dish stays large.
 - Gallery: 2 columns with the first tile full-width → 3 columns with the first tile spanning 2×2.
 
 ## Components
@@ -52,8 +52,9 @@ Fonts load through `next/font/google` with `display: swap`; the CSS variables fa
 | --- | --- |
 | `.button` + `.button-gold` / `.button-green` / `.button-outline` / `.button-ghost` / `.button-muted` | Pill buttons, 47px min height. Hover lifts 2px with a deeper shadow; active presses down. |
 | `.text-link` | Inline link with a gold underline that grows on hover. |
-| `.photo-slot.ratio-*` | Fixed aspect box (`dish` 4:3, `landscape` 16:10, `portrait` 4:5, `hero` 4:3, `square` 1.15:1). Holds `next/image fill` or `.photo-placeholder`. |
-| `.menu-card` | White card, 12px radius; hover lifts 5px and zooms the photo 4%. Contains `.menu-price` pill, `.diet-tag`s, `.choice-field` selects, `.add-button`. |
+| `.photo-slot.ratio-*` | Fixed aspect box (`dish` 4:3, `landscape` 16:10, `portrait` 4:5, `hero` 4:3, `square` 1:1). Holds `next/image fill` or `.photo-placeholder`. |
+| `.photo-slot.photo-contain` | **Uncropped food photo.** `<Photo fit="contain">` renders the dish with `object-fit: contain` (3.5% inset, soft drop shadow) over a blurred, saturated copy of the same image, so the whole plate is visible and the edges are filled with its own colour instead of bars. Used on menu cards and the home favourites; the hero and gallery tiles stay `cover`. |
+| `.menu-card` | White card, 12px radius, photo stacked above the text at every width with a square `.menu-photo` (full-width on phones). Hover lifts 5px and zooms the dish 3.5% while the backdrop blurs out further. Contains `.menu-price` pill, `.diet-tag`s, `.choice-field` selects, `.add-button`. |
 | `.favorite-card`, `.value-card`, `.gallery-tile` | Same lift-and-shadow hover pattern. |
 | `.category-nav` | Sticky pill row under the header; scrolls horizontally on phones. |
 | `.cart-drawer` + `.drawer-scrim` | Right-side panel, `min(100%, 440px)`. |
