@@ -130,10 +130,12 @@ export function OrderStatus({ orderId, address, phone, phoneE164 }: { orderId: s
             {retrying ? "Opening payment…" : "Try paying again"}
           </button>
         ) : null}
+        <div className="pickup-code" aria-label={`Pickup code ${order.orderNumber}`}>
+          <span>Your pickup code</span>
+          <b>{order.orderNumber}</b>
+          <small>Give this code at the counter when you collect your order.</small>
+        </div>
         <div className="order-meta">
-          <span>
-            Order <b>{order.orderNumber}</b>
-          </span>
           <span>
             Pickup <b>{order.pickupTimeLabel}</b> on <b>{dateLabel(order.pickupDate)}</b>
           </span>
