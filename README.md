@@ -1,27 +1,56 @@
-# Green Hands African Restaurant
+# Green Hands African Restaurant - Website
 
-Static, front-end-only restaurant website. No server, API, payment processor, or email service is included.
+Next.js 16 (App Router, React 19, TypeScript) site for Green Hands African Restaurant, Glen Burnie, MD. Customers browse the menu, build a bag, choose a pickup time and pay online through the `green-hands-backend` API and Stripe Checkout. Staff manage orders, the menu, the gallery and the inbox at `/admin`.
 
-## Run and publish
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) – routes, data flow, caching, checkout and order status.
+- [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) – design tokens, typography, components, motion and responsive rules.
+- API contract: `../green-hands-backend/docs/API.md`.
 
-Open `pages/index.html` in a browser to preview the site. For deployment, publish the project folder to any static web host, keeping the `pages`, `script`, and `style` folders together. The menu, photo placeholders, cart, and gallery work in the browser. The cart is saved in browser storage.
+## Run locally
 
-## Ordering and contact
+```bash
+npm install
+cp .env.example .env.local      # NEXT_PUBLIC_API_URL=http://localhost:4000
+npm run dev                     # http://localhost:3000
+```
 
-The cart prepares an order request in the visitor's default email app. The visitor must send the message, and the restaurant must confirm the order and arrange payment/pickup. No online payment is taken and no order is submitted or confirmed by this website. The contact form similarly opens an email draft; it does not send automatically.
+Start the API first (`cd ../green-hands-backend && npm run dev`). If the API is unreachable the site still renders every page from the offline snapshot in `src/data/fallback.ts`, with ordering disabled and a notice on the menu.
 
-To enable secure online payment, order notifications, or automatic contact form delivery later, connect a separate hosted checkout and backend/email service. Never put private payment or email credentials in front-end files.
+| Script              | What it does                 |
+| ------------------- | ---------------------------- |
+| `npm run dev`       | Dev server with Turbopack    |
+| `npm run build`     | Production build             |
+| `npm start`         | Serve the production build   |
+| `npm run typecheck` | `tsc --noEmit`               |
 
-## How to add my photos
+## Environment
 
-1. Add optimized WebP or JPEG photos under an `images` folder at the project root.
-2. In `script/data.js`, replace a photo's empty `image` value with its path, such as `/images/jollof-rice.webp`. The `photos` list covers the hero, About page, and gallery; each menu item has its own `photo` field.
-3. Keep each `alt` value accurate. Existing photo spaces maintain their aspect ratio and use `object-fit: cover` when an image is added.
-4. Add or edit dishes and categories in the `menu` and `categories` data in the same file. Prices use cents; leave unknown prices as `null` until confirmed.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | Base URL of the API, no trailing slash. |
+| `NEXT_PUBLIC_SITE_URL` | Public URL of this site (canonical links, sitemap, Open Graph). |
 
-## Before launch
+## Layout
 
-- Add restaurant, dish, and community photos.
-- Confirm the Vegetable Quesadillas price and listed chicken ingredient; confirm dietary labels and broth/stock ingredients.
-- Confirm menu details, options, serving sizes, and pickup expectations.
-- Decide whether to add a hosted payment and email/order backend in a later phase.
+```
+src/
+  app/                 routes (App Router)
+    layout.tsx         fonts + global CSS only
+    (site)/            customer pages; its layout adds the header, cart drawer and footer
+      page.tsx         Home
+      menu/            Menu + /menu/[slug] item deep links
+      checkout/        Pickup time + details; Stripe cancel return
+      order/[id]/      Confirmation / status; Stripe success return + email link
+      about/ gallery/ contact/
+    admin/             staff dashboard (login, board, orders, menu, gallery, messages) + admin.css
+    sitemap.ts robots.ts not-found.tsx globals.css
+  components/          Photo, Reveal, SiteHeader, SiteFooter, cart/, menu/, checkout/, order/, gallery/, contact/, admin/
+  lib/                 api.ts (public client), adminApi.ts (JWT client), types.ts, format.ts
+  data/fallback.ts     offline snapshot of restaurant, menu and gallery
+public/images/         dish and restaurant photos (also referenced by the API's imageUrl fields)
+legacy-static/         the original static HTML site, kept for reference only
+```
+
+## Deploying
+
+Vercel, Netlify or any Node host. Set `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SITE_URL`, then tell the backend your site origin (`CORS_ORIGINS`, `FRONTEND_URL`). Images are served from `public/images` with long cache headers and optimised by `next/image` (AVIF/WebP).
